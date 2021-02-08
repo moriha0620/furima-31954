@@ -1,24 +1,70 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# テーブル設計
 
-Things you may want to cover:
+## users テーブル
 
-* Ruby version
+| Column                | Type    | Options     |
+| --------------------- | ------  | ----------- |
+| name                  | string  | null: false |
+| email                 | string  | null: false |
+| password              | string  | null: false |
+| password_confirmation | string  | null: false |
+| name                  | string  | null: false |
+| name_kana             | string  | null: false |
+| birthday              | integer | null: false |
 
-* System dependencies
+### Association
 
-* Configuration
+- has_many :items
+- has_many :purchases
 
-* Database creation
+## items テーブル
 
-* Database initialization
+| Column                 | Type       | Options                        |
+| ---------------------- | ---------- | ------------------------------ |
+| product_name           | string     | null: false                    |
+| product_description    | text       | null: false                    |
+| category               | string     | null: false                    |
+| product_condition      | string     | null: false                    |
+| delivery_fee           | string     | null: false                    |
+| delivery_area          | string     | null: false                    |
+| delivery_days          | string     | null: false                    |
+| price                  | integer    | null: false                    |
+| user                   | references | null: false, foreign_key: true |
 
-* How to run the test suite
+### Association
 
-* Services (job queues, cache servers, search engines, etc.)
+- belongs to :user
+- has_one :purchase 
 
-* Deployment instructions
+## purchases テーブル
 
-* ...
+| Column        | Type       | Options                        |
+| ------------- | ---------- | ------------------------------ |
+| card_number   | integer    | null: false                    |
+| expiration    | integer    | null: false                    |
+| security_code | integer    | null: false                    |
+| user          | references | null: false, foreign_key: true |
+| item          | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- belongs_to :item
+- has_one :destination
+
+## destinations テーブル
+
+| Column       | Type       | Options                        |
+| ------------ | ---------- | ------------------------------ |
+| postal_code  | string     | null: false                    |
+| prefectures  | string     | null: false                    |
+| city         | string     | null: false                    |
+| address      | string     | null: false                    |
+| bill         | string     | null: false                    |
+| phone_number | integer    | null: false                    |
+| purchase     | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :purchase
