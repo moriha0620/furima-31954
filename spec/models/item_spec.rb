@@ -42,27 +42,27 @@ RSpec.describe Item, type: :model do
           expect(@item.errors.full_messages).to include("Product description is too long (maximum is 1000 characters)")
         end
         it "category_idが１のときは登録できない" do
-          @item.category_id = "1"
+          @item.category_id = 1
           @item.valid?
           expect(@item.errors.full_messages).to include("Category must be other than 1")
         end
         it "product_condition_idが１のときは登録できない" do
-          @item.product_condition_id = "1"
+          @item.product_condition_id = 1
           @item.valid?
           expect(@item.errors.full_messages).to include("Product condition must be other than 1")
         end
         it "delivery_fee_idが１のときは登録できない" do
-          @item.delivery_fee_id = "1"
+          @item.delivery_fee_id = 1
           @item.valid?
           expect(@item.errors.full_messages).to include("Delivery fee must be other than 1")
         end
         it "delivery_area_idが１のときは登録できない" do
-          @item.delivery_area_id = "1"
+          @item.delivery_area_id = 1
           @item.valid?
           expect(@item.errors.full_messages).to include("Delivery area must be other than 1")
         end
         it "delivery_day_idが１のときは登録できない" do
-          @item.delivery_day_id = "1"
+          @item.delivery_day_id = 1
           @item.valid?
           expect(@item.errors.full_messages).to include("Delivery day must be other than 1")
         end
@@ -72,14 +72,29 @@ RSpec.describe Item, type: :model do
           expect(@item.errors.full_messages).to include("Price can't be blank")
         end
         it "priceが299以下では登録できない" do
-          @item.price = "299"
+          @item.price = 299
           @item.valid?
           expect(@item.errors.full_messages).to include("Price must be greater than 299")
         end
         it "priceが10000000以上では登録できない" do
-          @item.price = "10000000"
+          @item.price = 10000000
           @item.valid?
           expect(@item.errors.full_messages).to include("Price must be less than 10000000")
+        end
+        it "priceが半角英数字混合では登録できない" do
+          @item.price = "abc123"
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+        it "priceが半角英字のみでは登録できない" do
+          @item.price = "aaa"
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+        it "priceが全角文字では登録できない" do
+          @item.price = "あああ"
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not a number")
         end
       end
     end
