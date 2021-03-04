@@ -3,14 +3,19 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
   describe Order do
     before do
-      @user = FactoryBot.build(:user)
-      @item = FactoryBot.build(:item)
-      @order = FactoryBot.build(:order, user_id: "9", item_id: "9")
+      @user = FactoryBot.create(:user)
+      @item = FactoryBot.create(:item)
+      @order = FactoryBot.build(:order, user_id: @user.id, item_id: @item.id)
+      sleep(0.5)
     end
     
     describe '購入情報の登録' do
       context '購入情報の登録がうまくいくとき' do
-        it 'tokenと必須項目がすべて正しく入力されていれば保存できること' do
+        it 'tokenと必須項目がすべて正しく入力されていれば保存できる' do
+          expect(@order).to be_valid
+        end
+        it 'billが空でも保存ができる' do
+          @order.bill = ''
           expect(@order).to be_valid
         end
       end

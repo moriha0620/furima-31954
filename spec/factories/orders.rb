@@ -5,6 +5,7 @@ FactoryBot.define do
     delivery_area_id { 2 }
     city { '東京都' }
     address { '1-1' }
+    bill { '柳ビル' }
     phone_number { '12345678901' }
   end
 end
